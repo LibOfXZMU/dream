@@ -18,23 +18,6 @@ export const initBooksList = () => requests({
     url: '/books',
     method: 'post'
 })
-// 评论区接口
-export const initCommentsList = () => requests({
-    url: '/comments',
-    method: 'post'
-})
-// 添加评论接口
-export const addComment = (dataObj)=>requests({
-	url: '/addcomment',
-	method: 'post',
-	data: dataObj
-})
-// 点赞接口
-export const addPraise = (dataObj)=>requests({
-	url: '/addpraise',
-	method: 'post',
-	data: dataObj
-})
 // 书名查找接口
 export const searchBook = (bookNameObj) => requests({
     url: '/searchbook',
@@ -47,10 +30,6 @@ export const searchBook = (bookNameObj) => requests({
 // 管理员查询借阅接口
 export const initBorrowslist = () => requests({
     url: '/borrowslist',
-    method: 'post'
-})
-export const initReportList = () => requests({
-    url: '/initreportlist',
     method: 'post'
 })
 // 管理员查询预订接口
@@ -81,12 +60,6 @@ export const addBooks = (infoObj) => requests({
     method: 'post',
     data:infoObj
 })
-// 管理员审核举报接口
-export const auditComment = (infoObj) => requests({
-    url: '/auditcomment',
-    method: 'post',
-    data:infoObj
-})
 // 管理员修改图书信息接口
 export const changeBookInfo = (infoObj) => requests({
     url: '/changebookinfo',
@@ -105,9 +78,9 @@ export const delPerson = (infoObj) => requests({
     method: 'post',
     data:infoObj
 })
-// 管理员提醒读者还书接口
-export const alertPerson = (infoObj) => requests({
-    url: '/alertperson',
+// 管理员发送通知接口
+export const sendNotification = (infoObj) => requests({
+    url: '/sendnotification',
     method: 'post',
     data:infoObj
 })
@@ -118,12 +91,6 @@ export const alertPerson = (infoObj) => requests({
 // 读者请求借阅记录接口
 export const initBorrows = (readerId) => requests({
     url: '/borrows',
-    method: 'post',
-    data: readerId
-})
-// 读者查询举报记录接口
-export const initStuReport = (readerId) => requests({
-    url: '/initstureport',
     method: 'post',
     data: readerId
 })
@@ -169,10 +136,15 @@ export const initReader = (readerId) => requests({
     method: 'post',
     data: readerId
 })
-// 学生举报接口
-export const reportComment = (infoObj)=>requests({
-    url:'/reportcomment',
-    method:'post',
-    data:infoObj
+// 获取通知接口
+export const getNotifications = (readerId) => requests({
+    url: '/getnotifications',
+    method: 'post',
+    data: readerId
 })
-
+// 标记通知已读接口
+export const markNotificationAsRead = (notificationId) => requests({
+    url: '/marknotificationasread',
+    method: 'post',
+    data: notificationId
+})
