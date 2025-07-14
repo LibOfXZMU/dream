@@ -52,7 +52,7 @@ export default {
 
 <style lang="less" scoped>
 .beautify-desc {
-  background: #f6fafd;
+  background: rgba(246, 250, 253, 0.8);
   border-radius: 16px;
   margin: 24px auto 32px auto;
   max-width: 560px;

@@ -40,6 +40,13 @@ const mutations = {
             date: moment.utc(item?.date).format('YYYY-MM-DD HH:mm:ss'),
             bookName: '《' + item.bookName + '》'
         }))
+    },
+    // 新增：直接从 state.reserve 中移除一个预约项
+    REMOVE_RESERVE(state, reserveItem) {
+        state.reserve = state.reserve.filter(item => {
+            // 通过 bookId 和 date 来唯一确定并过滤掉要删除的预约记录
+            return !(item.bookId === reserveItem.bookId && item.date === reserveItem.date);
+        });
     }
 }
 

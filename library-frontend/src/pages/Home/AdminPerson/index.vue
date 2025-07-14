@@ -102,12 +102,12 @@ export default {
 .beautify-table {
     border-radius: 12px;
     overflow: hidden;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.75);
     margin: 16px 0;
     box-shadow: 0 4px 24px 0 rgba(40, 130, 170, 0.12);
 }
 .el-table th, .el-table td {
-    background: #f7fbfd;
+    background: rgba(247, 251, 253, 0.7);
     color: #5082ad;
     font-size: 16px;
 }

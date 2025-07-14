@@ -340,7 +340,7 @@ export default {
 
 <style lang="less" scoped>
 .beautify-searchbooks {
-  background: #f8fcfe;
+  background: rgba(248, 252, 254, 0.8);
   border-radius: 14px;
   padding: 30px 16px 24px 16px;
   min-height: 420px;
@@ -349,12 +349,12 @@ export default {
 .beautify-table {
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.75);
   margin: 16px 0 0 0;
   box-shadow: 0 2px 12px 0 rgba(221, 241, 255, 0.20);
 }
 .el-table th, .el-table td {
-  background: #f7fbfd;
+  background: rgba(247, 251, 253, 0.7);
   color: #336699;
   font-size: 15px;
 }
@@ -383,7 +383,7 @@ export default {
 }
 .demo-table-expand {
   font-size: 0;
-  background: #fafdff;
+  background: rgba(250, 253, 255, 0.85);
 }
 .demo-table-expand label {
   width: 90px;

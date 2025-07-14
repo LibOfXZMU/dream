@@ -40,14 +40,6 @@
         </div>
       </div>
     </div>
-
-    <div class="slidershow">
-      <div class="slidershow--image" :style="{'background-image': `url(${bg01})`}"></div>
-      <div class="slidershow--image" :style="{'background-image': `url(${bg02})`}"></div>
-      <div class="slidershow--image" :style="{'background-image': `url(${bg03})`}"></div>
-      <div class="slidershow--image" :style="{'background-image': `url(${bg04})`}"></div>
-
-    </div>
   </div>
 
 </template>
@@ -56,10 +48,6 @@
 import axios from 'axios'
 import {register,login} from '@/api'
 import qs from "qs"
-import bg01 from './images/bg01.jpg'
-import bg02 from './images/bg02.jpg'
-import bg03 from './images/bg03.jpg'
-import bg04 from './images/bg04.jpg'
 export default {
   name: "LoginRegister",
   data(){
@@ -68,10 +56,6 @@ export default {
       registerloading:false,
       isAdmin:false,
       flag:1,
-      bg01:bg01,
-      bg02:bg02,
-      bg03:bg03,
-      bg04:bg04,
       loginMsg:{
         phone:'',
         pwd:''
@@ -260,7 +244,7 @@ export default {
 
 .login-wrap {
   align-items: center;
-  background-color: #e9e9e9;
+  background-image: url('https://hefollo.com/apis.php?type=喵糖映画套图');
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -284,7 +268,7 @@ export default {
 }
 
 .container {
-  background-color: #e9e9e9;
+  background-color: transparent;
   border-radius: 0.7rem;
   box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
   0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
@@ -310,6 +294,8 @@ export default {
 
 .container.right-panel-active .container--signin {
   transform: translateX(100%);
+  opacity: 0;
+  z-index: 4;
 }
 
 .container--signup {
@@ -419,7 +405,7 @@ export default {
 }
 
 .form {
-  background-color: #e9e9e9;
+  background-color: rgba(233, 233, 233, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -462,255 +448,6 @@ export default {
   100% {
     opacity: 1;
     z-index: 8;
-  }
-}
-
-
-.slidershow {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.slidershow--image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: no-repeat 50% 50%;
-  background-size: cover;
-  -webkit-animation-name: kenburns;
-  animation-name: kenburns;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-duration: 16s;
-  animation-duration: 16s;
-  opacity: 1;
-  -webkit-transform: scale(1.2);
-  transform: scale(1.2);
-}
-
-.slidershow--image:nth-child(1) {
-  -webkit-animation-name: kenburns-1;
-  animation-name: kenburns-1;
-  z-index: 3;
-}
-
-.slidershow--image:nth-child(2) {
-  -webkit-animation-name: kenburns-2;
-  animation-name: kenburns-2;
-  z-index: 2;
-}
-
-.slidershow--image:nth-child(3) {
-  -webkit-animation-name: kenburns-3;
-  animation-name: kenburns-3;
-  z-index: 1;
-}
-
-.slidershow--image:nth-child(4) {
-  -webkit-animation-name: kenburns-4;
-  animation-name: kenburns-4;
-  z-index: 0;
-}
-
-@-webkit-keyframes kenburns-1 {
-  0% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  1.5625% {
-    opacity: 1;
-  }
-  23.4375% {
-    opacity: 1;
-  }
-  26.5625% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  98.4375% {
-    opacity: 0;
-    -webkit-transform: scale(1.21176);
-    transform: scale(1.21176);
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes kenburns-1 {
-  0% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  1.5625% {
-    opacity: 1;
-  }
-  23.4375% {
-    opacity: 1;
-  }
-  26.5625% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  98.4375% {
-    opacity: 0;
-    -webkit-transform: scale(1.21176);
-    transform: scale(1.21176);
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes kenburns-2 {
-  23.4375% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  26.5625% {
-    opacity: 1;
-  }
-  48.4375% {
-    opacity: 1;
-  }
-  51.5625% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-
-@keyframes kenburns-2 {
-  23.4375% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  26.5625% {
-    opacity: 1;
-  }
-  48.4375% {
-    opacity: 1;
-  }
-  51.5625% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-
-@-webkit-keyframes kenburns-3 {
-  48.4375% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  51.5625% {
-    opacity: 1;
-  }
-  73.4375% {
-    opacity: 1;
-  }
-  76.5625% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-
-@keyframes kenburns-3 {
-  48.4375% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  51.5625% {
-    opacity: 1;
-  }
-  73.4375% {
-    opacity: 1;
-  }
-  76.5625% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-
-@-webkit-keyframes kenburns-4 {
-  73.4375% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  76.5625% {
-    opacity: 1;
-  }
-  98.4375% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-
-@keyframes kenburns-4 {
-  73.4375% {
-    opacity: 1;
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  76.5625% {
-    opacity: 1;
-  }
-  98.4375% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(1);
-    transform: scale(1);
   }
 }
 </style>

@@ -101,12 +101,12 @@ export default {
 
 <style lang="less" scoped>
 .beautify-form {
-    background: #f6fafd;
-    border-radius: 10px;
-    box-shadow: 0 2px 14px 0 rgba(30, 144, 255, 0.09);
-    padding: 30px 30px 15px 30px;
-    margin: 0 auto;
-    max-width: 600px;
+  background: rgba(246, 250, 253, 0.8); /* <-- 修改了背景色 */
+  border-radius: 10px;
+  box-shadow: 0 2px 14px 0 rgba(30, 144, 255, 0.09);
+  padding: 30px 30px 15px 30px;
+  margin: 0 auto;
+  max-width: 600px;
 }
 .el-form-item {
     margin-bottom: 22px;

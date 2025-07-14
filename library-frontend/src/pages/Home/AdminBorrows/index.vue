@@ -224,7 +224,7 @@ export default {
 
 <style lang="less" scoped>
 .beautify-adminborrows {
-  background: #f4faff;
+  background: rgba(244, 250, 255, 0.8);
   border-radius: 14px;
   padding: 32px 24px 20px 24px;
   box-shadow: 0 4px 24px 0 rgba(30, 144, 255, 0.12);
@@ -233,7 +233,7 @@ export default {
   margin-top: 20px;
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.75);
 }
 .search-input {
   width: 340px;
@@ -244,8 +244,8 @@ export default {
   font-size: 16px;
 }
 .el-table th, .el-table td {
-  background: #f7fbfd;
-  color: #5082ad;
+  background: rgba(247, 251, 253, 0.7); /* <-- 修改了背景色 */
+  color: #336699;
   font-size: 15px;
 }
 .el-button {

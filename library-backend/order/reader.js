@@ -128,27 +128,53 @@ router.post('/addborrow', (req, res) => {
   conn.query('UPDATE book SET amount = amount - 1 WHERE bookId=?', [data.bookId]);
   conn.query('UPDATE book SET borrowedTimes = borrowedTimes + 1 WHERE bookId=?', [data.bookId]);
   conn.query('UPDATE reader SET borrowTimes = borrowTimes + 1 WHERE readerId=?', [data.readerId]);
-  conn.query('UPDATE reserve SET status="已借阅" WHERE bookId=? AND readerId=? AND date=?', [data.bookId, data.readerId, data.date]);
+  // 修改点：将更新预约状态改为删除预约记录
+  conn.query('DELETE FROM reserve WHERE bookId=? AND readerId=? AND date=?', [data.bookId, data.readerId, data.date]);
   res.json({ msg: '添加借书记录成功！', status: 200 });
 });
 
 // 还书
 router.post('/returnbook', (req, res) => {
   const data = req.body;
-  conn.query('UPDATE book SET amount = amount + 1 WHERE bookId=?', [data.bookId]);
-  conn.query('UPDATE borrow SET status="已归还",realDate=NOW() WHERE bookId=? AND readerId=? AND borrowDate=?', [data.bookId, data.readerId, data.borrowDate]);
-  conn.query('SELECT UNIX_TIMESTAMP(returnDate) as returnDate FROM borrow WHERE bookId=? AND readerId=? AND borrowDate=?', [data.bookId, data.readerId, data.borrowDate], (err, rs) => {
-    if (rs && rs.length > 0) {
-      let realDate = Math.floor(Date.now() / 1000);
-      let returnDate = rs[0].returnDate;
-      if (realDate > returnDate) {
-        conn.query('UPDATE reader SET ovdTimes = ovdTimes + 1 WHERE readerId=?', [data.readerId]);
+
+  // 1. 首先检查当前借阅记录的状态
+  const checkStatusQuery = 'SELECT status, returnDate FROM borrow WHERE bookId=? AND readerId=? AND borrowDate=?';
+  conn.query(checkStatusQuery, [data.bookId, data.readerId, data.borrowDate], (err, rows) => {
+    if (err) {
+      return res.json({ msg: '数据库错误！', status: 0 });
+    }
+    if (!rows || rows.length === 0) {
+      return res.json({ msg: '还书失败，未找到该借阅记录！', status: 0 });
+    }
+
+    const borrowRecord = rows[0];
+
+    // 2. 如果已归还，则阻止操作
+    if (borrowRecord.status === '已还') {
+      return res.json({ msg: '该书籍已经归还，请勿重复操作！', status: 0 });
+    }
+
+    // 3. 如果未归还，则执行还书逻辑
+    conn.query('UPDATE book SET amount = amount + 1 WHERE bookId=?', [data.bookId]);
+
+    const returnDate = new Date(borrowRecord.returnDate);
+    const realDate = new Date();
+    let updateQuery = 'UPDATE borrow SET status = ?, realDate = ? WHERE bookId = ? AND readerId = ? AND borrowDate = ?';
+    let queryParams = ['已还', realDate, data.bookId, data.readerId, data.borrowDate];
+
+    if (realDate > returnDate) {
+      // 处理逾期情况
+      conn.query('UPDATE reader SET ovdTimes = ovdTimes + 1 WHERE readerId=?', [data.readerId]);
+      conn.query(updateQuery, queryParams, (err, result) => {
+        if (err) return res.json({ msg: '数据库更新失败！', status: 0 });
         res.json({ msg: '还书成功，您已逾期！', status: 100 });
-      } else {
-        res.json({ msg: '还书成功！', status: 200 });
-      }
+      });
     } else {
-      res.json({ msg: '还书失败！', status: 0 });
+      // 正常还书
+      conn.query(updateQuery, queryParams, (err, result) => {
+        if (err) return res.json({ msg: '数据库更新失败！', status: 0 });
+        res.json({ msg: '还书成功！', status: 200 });
+      });
     }
   });
 });

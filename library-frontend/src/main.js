@@ -12,10 +12,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
 // 引入时间格式化库
-// import moment from 'moment'
-// Vue.prototype.$moment = moment;
-import timeFormater from "time-formater";
-Vue.prototype.$moment = timeFormater;
+import moment from 'moment'
+Vue.prototype.$moment = moment;
+//import timeFormater from "time-formater";
+//Vue.prototype.$moment = timeFormater;
 
 // 引入全局组件
 // 读者侧边栏

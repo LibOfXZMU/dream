@@ -52,13 +52,14 @@ export default {
 <style lang="less" scoped>
 .entertainment-container {
   padding: 20px;
-  background-color: #f9fafb;
+  background-color: rgba(249, 250, 251, 0.8);
   min-height: 70vh;
 }
 
 .game-card {
   border-radius: 12px;
   transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.85);
 
   &:hover {
     transform: translateY(-5px);

@@ -67,20 +67,17 @@ app.post('/books', (req, res) => {
 // 书籍查找
 app.post('/searchbook', (req, res) => {
   let data = req.body;
-  conn.query('SELECT * FROM book WHERE bookName LIKE ?', [`%${data.name}%`], (err, book) => {
-    book = book || [];
-    conn.query('SELECT * FROM book WHERE author LIKE ?', [`%${data.name}%`], (err, author) => {
-      const map = {};
-      for (let b of book) map[b.bookId] = b;
-      for (let a of author) map[a.bookId] = a;
-      const result = Object.values(map);
-      if (result.length > 0)
-        res.json({ msg: '查询成功！', data: result, status: 200 });
-      else
-        res.json({ msg: '查询结果为空！', status: 0, data: [] });
-    });
+  const query = '%' + data.name + '%';
+  conn.query('SELECT * FROM book WHERE bookName LIKE ? OR author LIKE ?', [query, query], (err, result) => {
+    if (err) return res.json({ msg: '数据库错误', status: 0, data: [] });
+
+    if (result && result.length > 0)
+      res.json({ msg: '查询成功！', data: result, status: 200 });
+    else
+      res.json({ msg: '查询结果为空！', status: 0, data: [] });
   });
 });
+
 
 app.listen(8989, () => {
   console.log('服务器启动成功! 端口: 8989');

@@ -67,7 +67,8 @@ export default {
 
 <style lang="less" scoped>
 .sidebar-container {
-  background-color: #ffffff;
+  /* 修改点：增加了透明度 */
+  background-color: rgba(255, 255, 255, 0.85);
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
   padding: 20px 0;
@@ -89,23 +90,23 @@ export default {
   .el-menu-item, .el-submenu__title {
     font-size: 15px;
     font-weight: 500;
-    color: #495057; // Darker gray for text
+    color: #495057;
     border-radius: 8px;
     margin: 8px 12px;
     transition: all 0.2s ease-in-out;
 
     i {
-      color: #5c6ac4; // A professional blue for icons
+      color: #5c6ac4;
     }
   }
 
   .el-menu-item:hover, .el-submenu__title:hover {
-    background-color: #f1f3f5; // Light gray for hover
+    background-color: #f1f3f5;
     color: #343a40;
   }
 
   .el-menu-item.is-active {
-    background-color: #5c6ac4; // Active state with the professional blue
+    background-color: #5c6ac4;
     color: #ffffff !important;
     font-weight: 600;
     box-shadow: 0 4px 8px rgba(92, 106, 196, 0.2);
@@ -115,7 +116,6 @@ export default {
     }
   }
 
-  // Submenu styling
   .el-submenu .el-menu-item {
     min-width: unset;
     background-color: #fafbff;

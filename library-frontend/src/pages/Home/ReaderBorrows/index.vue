@@ -1,24 +1,24 @@
 <template>
   <div class="beautify-readerborrows">
     <el-table
-      :data="borrows"
-      style="width: 100%"
-      height="450"
-      v-loading.fullscreen.lock="loading"
-      element-loading-text="正在处理..."
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-      class="beautify-table"
-      border
-      stripe
-      highlight-current-row
+        :data="borrows"
+        style="width: 100%"
+        height="450"
+        v-loading.fullscreen.lock="loading"
+        element-loading-text="正在处理..."
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        class="beautify-table"
+        border
+        stripe
+        highlight-current-row
     >
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" class="demo-table-expand">
             <el-form-item
-              label="借书日期："
-              v-if="props.row.borrowDate != '9999-12-31 00:00:00'"
+                label="借书日期："
+                v-if="props.row.borrowDate != '9999-12-31 00:00:00'"
             >
               <span>{{ props.row.borrowDate }}</span>
             </el-form-item>
@@ -44,133 +44,91 @@
         <template slot-scope="scope">
           <el-button size="mini" disabled v-if="scope.row.status == '已还'">已还</el-button>
           <el-button
-            size="mini"
-            type="primary"
-            plain
-            class="action-btn"
-            @click="openReturn(scope.row)"
-            v-if="scope.row.status != '已还' && !handleIfOverdue(scope.row)"
-            >还书
+              size="mini"
+              type="primary"
+              plain
+              class="action-btn"
+              @click="returnBook(scope.row)"
+              v-if="scope.row.status != '已还' && !handleIfOverdue(scope.row)"
+          >还书
           </el-button>
           <el-button
-            size="mini"
-            type="success"
-            :plain="scope.row.status == '未还'"
-            :disabled="scope.row.status == '续借'"
-            v-if="scope.row.status != '已还' && !handleIfOverdue(scope.row)"
-            @click="openContinue(scope.row)"
-            class="action-btn"
-            >续借
+              size="mini"
+              type="success"
+              :plain="scope.row.status == '未还'"
+              :disabled="scope.row.status == '续借'"
+              v-if="scope.row.status != '已还' && !handleIfOverdue(scope.row)"
+              @click="continueBorrowBook(scope.row)"
+              class="action-btn"
+          >续借
           </el-button>
           <el-button
-            size="mini"
-            type="warning"
-            plain
-            class="action-btn"
-            v-if="handleIfOverdue(scope.row) && scope.row.status !== '已还'"
-            @click="openOverdue(scope.row)"
-            >立即还书
+              size="mini"
+              type="warning"
+              plain
+              class="action-btn"
+              v-if="handleIfOverdue(scope.row) && scope.row.status !== '已还'"
+              @click="returnBook(scope.row)"
+          >立即还书
           </el-button>
           <el-button
-            size="mini"
-            type="danger"
-            disabled
-            plain
-            v-if="handleIfOverdue(scope.row) && scope.row.status !== '已还'"
-            >已逾期
+              size="mini"
+              type="danger"
+              disabled
+              plain
+              v-if="handleIfOverdue(scope.row) && scope.row.status !== '已还'"
+          >已逾期
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="扫码还书" :visible.sync="returnVisible" width="340px" class="beautify-dialog">
-      <div class="dialog-center">
-        <el-image style="width: 100px; height: 100px; margin-bottom: 30px" :src="codePng"></el-image>
-        <el-button type="primary" class="dialog-btn" @click="returnBook(currentRow)">我已扫码，立即还书</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog title="扫码续借" :visible.sync="continueVisible" width="340px" class="beautify-dialog">
-      <div class="dialog-center">
-        <el-image style="width: 100px; height: 100px; margin-bottom: 30px" :src="codePng"></el-image>
-        <el-button type="primary" class="dialog-btn" @click="continueBorrowBook(currentRow)">我已扫码，现在续借</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog title="逾期支付" :visible.sync="overdueVisible" width="340px" class="beautify-dialog">
-      <div class="dialog-center">
-        <el-image style="width: 100px; height: 100px; margin-bottom: 30px" :src="codePng"></el-image>
-        <el-button type="primary" class="dialog-btn" @click="returnBook(currentRow)">我已支付，现在还书</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { continueBorrow, returnBook } from "@/api";
-import codePng from "@/assets/code.png";
 import qs from "qs";
 export default {
   name: "ReaderBorrow",
   data() {
     return {
       loading: false,
-      overdueVisible: false,
-      returnVisible: false,
-      continueVisible: false,
-      codePng,
-      currentRow: {},
     };
   },
   methods: {
     handleIfOverdue(item) {
       return new Date(item.returnDate) - new Date() < 0;
     },
-    openReturn(row) {
-      this.currentRow = row;
-      this.returnVisible = true;
-    },
-    openOverdue(row) {
-      this.currentRow = row;
-      this.overdueVisible = true;
-    },
-    openContinue(row) {
-      this.currentRow = row;
-      this.continueVisible = true;
-    },
     returnBook(row) {
-      const isOverdue = this.handleIfOverdue(row);
-      if (isOverdue) {
-        this.overdueVisible = true;
-      }
       let infoObj = {
         bookId: row.bookId,
         readerId: row.readerId,
         borrowDate: row.borrowDate,
       };
       returnBook(qs.stringify(infoObj)).then(
-        (res) => {
-          if (res.status == 100) {
-            this.$message({
-              showClose: true,
-              message: res.msg,
-              type: "error",
-            });
-          } else if (res.status == 200) {
-            this.$message({
-              showClose: true,
-              message: res.msg,
-              type: "success",
-            });
-            this.overdueVisible = false;
-            this.returnVisible = false;
+          (res) => {
+            if (res.status == 100) {
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: "error",
+              });
+            } else if (res.status == 200) {
+              this.$message({
+                showClose: true,
+                message: res.msg,
+                type: "success",
+              });
+            }
+            this.$store.dispatch(
+                "initBorrows",
+                qs.stringify({ readerId: this.readerId })
+            );
+          },
+          (err) => {
+            console.log(err.message);
           }
-          this.$store.dispatch(
-            "initBorrows",
-            qs.stringify({ readerId: this.readerId })
-          );
-        },
-        (err) => {
-          console.log(err.message);
-        }
       );
     },
     continueBorrowBook(row) {
@@ -189,11 +147,10 @@ export default {
             message: "续借成功！",
             type: "success",
           });
-          this.continueVisible = false;
         }
         this.$store.dispatch(
-          "initBorrows",
-          qs.stringify({ readerId: this.readerId })
+            "initBorrows",
+            qs.stringify({ readerId: this.readerId })
         );
       });
     },
@@ -210,8 +167,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch(
-      "initBorrows",
-      qs.stringify({ readerId: this.readerId })
+        "initBorrows",
+        qs.stringify({ readerId: this.readerId })
     );
   },
 };
@@ -219,7 +176,7 @@ export default {
 
 <style lang="less" scoped>
 .beautify-readerborrows {
-  background: #f8fcfe;
+  background: rgba(244, 250, 255, 0.8);
   border-radius: 14px;
   padding: 30px 14px 24px 14px;
   min-height: 420px;
@@ -228,12 +185,12 @@ export default {
 .beautify-table {
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: rgba(248, 252, 254, 0.8);
   margin: 0 0 20px 0;
   box-shadow: 0 2px 12px 0 rgba(221, 241, 255, 0.20);
 }
 .el-table th, .el-table td {
-  background: #f7fbfd;
+  background: rgba(247, 251, 253, 0.7); /* <-- 修改了背景色 */
   color: #336699;
   font-size: 15px;
 }
@@ -265,16 +222,5 @@ export default {
 .el-button--warning {
   background: linear-gradient(90deg,#fffde7,#ffe082 100%);
   color: #ff9800;
-}
-.dialog-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.dialog-btn {
-  margin-top: 12px;
-  width: 160px;
-  border-radius: 8px;
-  font-size: 16px;
 }
 </style>

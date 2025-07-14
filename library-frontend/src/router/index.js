@@ -4,8 +4,8 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import LoginRegister from '@/pages/LoginRegister'
-import Home from '@/pages/Home'
-import Entertainment from '@/pages/Home/Entertainment' // 恢复引入
+import HomePage from '@/pages/Home' // 修改点：将 Home 改为 HomePage
+import Entertainment from '@/pages/Home/Entertainment'
 import Introduce from '@/pages/Home/Introduce'
 import SearchBooks from '@/pages/Home/SearchBooks'
 import AdminSubscribe from '@/pages/Home/AdminSubscribe'
@@ -29,11 +29,9 @@ export default new VueRouter({
         },
         {
             path: '/home',
-            component: Home,
-            children: [{
-                path: '/',
-                component: Introduce,
-            },
+            component: HomePage, // 修改点：将 Home 改为 HomePage
+            redirect: '/home/introduce',
+            children: [
                 {
                     //    主页介绍
                     path: 'introduce',
@@ -47,7 +45,7 @@ export default new VueRouter({
                 {
                     //    娱乐页面
                     path: 'entertainment',
-                    component: Entertainment, // 恢复路由
+                    component: Entertainment,
                 },
                 // 管理员
                 {

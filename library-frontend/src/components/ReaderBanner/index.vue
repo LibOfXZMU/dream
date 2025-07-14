@@ -78,7 +78,8 @@ export default {
 
 <style lang="less" scoped>
 .sidebar-container {
-  background: linear-gradient(135deg, #fdf6f9 0%, #e8dff5 100%);
+  /* 修改点：将渐变背景色增加了透明度 */
+  background: linear-gradient(135deg, rgba(253, 246, 249, 0.85) 0%, rgba(232, 223, 245, 0.85) 100%);
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
   padding: 20px 0;

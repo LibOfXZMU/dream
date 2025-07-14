@@ -23,7 +23,6 @@
 import { mapState } from "vuex";
 import { getNotifications, markNotificationAsRead } from "@/api";
 import qs from "qs";
-import moment from "moment";
 
 export default {
   name: "ReaderNotifications",
@@ -65,7 +64,7 @@ export default {
       });
     },
     formatDate(date) {
-      return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      return this.$moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
   },
   mounted() {
@@ -86,6 +85,7 @@ export default {
     border-left: 5px solid #0bbd87;
     cursor: pointer;
     transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.85);
     &:hover {
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transform: translateY(-3px);
